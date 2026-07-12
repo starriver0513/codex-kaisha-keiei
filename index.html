@@ -1,0 +1,1745 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex会社経営完全攻略｜テクニック10選 保存版資料</title>
+  <meta name="description" content="Codexで会社経営に必要なフォルダ構築、ルールファイル、SaaS棚卸し、API・MCP連携、APIキー管理、業務フロー言語化、スキル作成、Computer Use、オートメーション、おはようスキルまでを実践手順として整理した保存版資料です。">
+  <style>
+    :root {
+      --ink: #0b1020;
+      --ink-soft: #22304a;
+      --muted: #5c6880;
+      --blue: #0866ff;
+      --blue-dark: #073b9a;
+      --blue-soft: #eef5ff;
+      --cyan: #28d3ff;
+      --sky: #d9eaff;
+      --line: #d8e4f6;
+      --bg: #f6f9ff;
+      --white: #ffffff;
+      --shadow: 0 22px 60px rgba(8, 32, 80, 0.12);
+      --shadow-soft: 0 12px 34px rgba(8, 32, 80, 0.08);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(8, 102, 255, 0.08), transparent 28%),
+        linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+      line-height: 1.9;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    .page {
+      width: min(var(--max), calc(100vw - 36px));
+      margin: 0 auto;
+      padding: 36px 0 80px;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .scroll-progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 22px rgba(40, 211, 255, 0.45);
+      transition: width 0.12s linear;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      color: #fff;
+      padding: clamp(34px, 5vw, 70px);
+      background:
+        linear-gradient(135deg, rgba(4, 12, 34, 0.96) 0%, rgba(4, 32, 91, 0.96) 48%, rgba(4, 86, 201, 0.94) 100%),
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.08) 75%, transparent 75%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 45%), rgba(114, 217, 255, 0.2), transparent 34%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .hero:hover::after {
+      opacity: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 62px);
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .hero-accent {
+      color: #72d9ff;
+      display: inline-block;
+    }
+
+    .hero-copy {
+      width: min(780px, 100%);
+      margin: 22px 0 0;
+      color: rgba(255,255,255,0.9);
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .hero-meta span {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.92);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .intro,
+    .toc,
+    .content-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .intro {
+      margin-top: 30px;
+      border-top: 5px solid var(--blue);
+      padding: clamp(24px, 4vw, 38px);
+    }
+
+    .intro h2,
+    .toc h2,
+    .content-card h3 {
+      margin-top: 0;
+    }
+
+    .lead {
+      color: var(--ink-soft);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border: 1px solid var(--sky);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      color: var(--ink-soft);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .toc {
+      margin-top: 30px;
+      padding: clamp(24px, 4vw, 38px);
+    }
+
+    .toc h2 {
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .toc-list a {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+      color: var(--ink);
+      font-weight: 700;
+      background: #fbfdff;
+    }
+
+    .toc-list a:hover,
+    .toc-list a.is-active {
+      border-color: var(--sky);
+      background: var(--blue-soft);
+      transform: translateX(4px);
+    }
+
+    .toc-number {
+      width: 42px;
+      height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    }
+
+    .section-header {
+      margin: 52px 0 22px;
+      border-radius: 20px;
+      color: #fff;
+      padding: clamp(24px, 4vw, 36px);
+      background: linear-gradient(135deg, #07101f 0%, #092b68 54%, #064dc7 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 70px 70px;
+      pointer-events: none;
+    }
+
+    .section-header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 0%, transparent 34%, rgba(255,255,255,0.16) 50%, transparent 66%, transparent 100%);
+      transform: translateX(-130%);
+      pointer-events: none;
+    }
+
+    .section-header.is-visible::after {
+      animation: headerSweep 1.1s ease 0.1s both;
+    }
+
+    @keyframes headerSweep {
+      to {
+        transform: translateX(130%);
+      }
+    }
+
+    .section-kicker {
+      position: relative;
+      display: inline-flex;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      border-radius: 999px;
+      padding: 5px 16px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      position: relative;
+      margin: 0;
+      color: #fff;
+      font-size: clamp(22px, 4vw, 34px);
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .content-card {
+      border-top: 5px solid var(--blue);
+      padding: clamp(24px, 4vw, 36px);
+      margin-bottom: 22px;
+    }
+
+    .content-card h3 {
+      border-left: 5px solid var(--blue);
+      padding-left: 14px;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .content-card h4 {
+      color: var(--blue-dark);
+      font-size: 18px;
+      line-height: 1.45;
+      margin: 28px 0 10px;
+      font-weight: 800;
+    }
+
+    .content-card p {
+      margin: 0 0 14px;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card,
+    .tool-card,
+    .step-card {
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .mini-card strong,
+    .tool-card strong,
+    .step-card strong {
+      display: block;
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .mini-card p,
+    .tool-card p,
+    .step-card p {
+      font-size: 14px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .flow {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .flow-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: start;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .flow-index {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    }
+
+    .flow-item h4 {
+      margin: 0 0 4px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .flow-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check-list,
+    .plain-list {
+      margin: 16px 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-list li,
+    .plain-list li {
+      position: relative;
+      padding: 12px 14px 12px 40px;
+      border-radius: 12px;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 14px;
+      top: 11px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 17px;
+      top: 22px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .quote {
+      margin: 20px 0;
+      border-left: 5px solid var(--blue);
+      background: var(--blue-soft);
+      border-radius: 0 14px 14px 0;
+      padding: 18px 22px;
+      color: var(--ink-soft);
+      font-weight: 800;
+    }
+
+    .prompt-card {
+      position: relative;
+      border-radius: 16px;
+      background: #07101f;
+      color: #eaf3ff;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      margin: 18px 0 26px;
+      box-shadow: 0 16px 42px rgba(3, 16, 42, 0.24);
+    }
+
+    .prompt-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .prompt-title {
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .copy-btn {
+      border: 0;
+      color: #07101f;
+      background: #72d9ff;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover,
+    .copy-btn.copied {
+      background: #fff;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.8;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 13px;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: #fff;
+    }
+
+    th {
+      background: #071a3d;
+      color: #fff;
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    td {
+      border-top: 1px solid var(--line);
+      padding: 12px 14px;
+      color: var(--ink-soft);
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    .sources {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sources a {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 900;
+      margin-right: 6px;
+    }
+
+    .cta {
+      margin-top: 52px;
+      border-radius: 22px;
+      padding: clamp(28px, 5vw, 48px);
+      background: linear-gradient(135deg, #06101f, #062b70 55%, #0866ff);
+      color: #fff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.35;
+    }
+
+    .cta p {
+      margin: 0 auto 12px;
+      width: min(780px, 100%);
+      color: rgba(255,255,255,0.84);
+      font-weight: 600;
+    }
+
+    .section-rail {
+      position: fixed;
+      top: 50%;
+      right: 18px;
+      z-index: 998;
+      display: grid;
+      gap: 9px;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .section-rail.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .section-rail a {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #aac4ec;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(8, 32, 80, 0.18);
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .section-rail a.is-active {
+      background: var(--blue);
+      transform: scale(1.55);
+      box-shadow: 0 0 0 5px rgba(8, 102, 255, 0.14), 0 8px 18px rgba(8, 32, 80, 0.2);
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 16px 34px rgba(8, 32, 80, 0.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mini-card,
+    .flow-item,
+    .prompt-card {
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    @media (hover: hover) {
+      .mini-card:hover,
+      .flow-item:hover {
+        transform: translateY(-3px);
+        border-color: var(--sky);
+        box-shadow: 0 14px 30px rgba(8, 32, 80, 0.1);
+      }
+    }
+
+    .copy-btn.copied {
+      animation: copyPulse 0.48s ease;
+    }
+
+    @keyframes copyPulse {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .scroll-progress span,
+      .hero::after,
+      .reveal,
+      .mini-card,
+      .flow-item,
+      .prompt-card,
+      .back-to-top,
+      .section-rail,
+      .section-rail a,
+      .section-header::after,
+      .copy-btn.copied {
+        animation: none;
+        transition: none;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .section-rail {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .toc-list a {
+        grid-template-columns: 36px 1fr;
+        gap: 12px;
+      }
+
+      .toc-number {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: calc(100vw - 22px);
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section-header,
+      .intro,
+      .toc,
+      .content-card,
+      .cta {
+        border-radius: 16px;
+      }
+
+      .hero {
+        padding: 28px 22px;
+      }
+
+      .flow-item {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .flow-index {
+        width: 44px;
+        height: 44px;
+        font-size: 15px;
+      }
+
+      pre {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="badge">SAVE MATERIAL</div>
+        <h1>Codex会社経営<br><span class="hero-accent">テクニック10選</span></h1>
+        <p class="hero-copy">動画で紹介した「会社経営フォルダ」「ルールファイル」「SaaS棚卸し」「API・MCP連携」「スキル化」「自動化」までを、あとから見返して実践できる形に整理しました。</p>
+        <div class="hero-meta">
+          <span>Codex会社経営</span>
+          <span>API・MCP</span>
+          <span>スキル作成</span>
+          <span>コーデックス特典</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="intro reveal" id="about">
+      <h2>この資料について</h2>
+      <p class="lead">今回は動画のご視聴と、保存版資料のお受け取りをいただきありがとうございます。</p>
+      <p>この資料では、動画内容のまとめと、実践に落とし込むための手順を整理しています。最初から全部を完璧に作る必要はありません。まずは会社経営フォルダを作り、普段使っているSaaSを洗い出し、1つの業務を言語化するところから始めてください。</p>
+      <div class="grid three">
+        <div class="mini-card">
+          <strong>1. 情報を置く</strong>
+          <p>会社情報、商品情報、過去の発信、台本、質問をCodexが読める形に整理します。</p>
+        </div>
+        <div class="mini-card">
+          <strong>2. ルールを決める</strong>
+          <p>AGENTS.md、.env、確認ルールを作り、AIに任せる範囲を明確にします。</p>
+        </div>
+        <div class="mini-card">
+          <strong>3. 小さく自動化する</strong>
+          <p>API・MCP、Computer Use、スキル、オートメーションを順番に整えます。</p>
+        </div>
+      </div>
+      <div class="note">APIキー、顧客情報、売上情報などの重要情報は、公開ページやSNS、共有資料にそのまま貼らないでください。本資料内のキー例はすべてダミーです。</div>
+    </section>
+
+    <nav class="toc reveal" aria-label="目次">
+      <h2>CONTENTS</h2>
+      <ol class="toc-list">
+        <li><a href="#section-00"><span class="toc-number">0</span><span>Codexの使い分け</span></a></li>
+        <li><a href="#section-01"><span class="toc-number">1</span><span>会社経営フォルダの構築</span></a></li>
+        <li><a href="#section-02"><span class="toc-number">2</span><span>ルールファイルの作成</span></a></li>
+        <li><a href="#section-03"><span class="toc-number">3</span><span>SaaSの棚卸し</span></a></li>
+        <li><a href="#section-04"><span class="toc-number">4</span><span>API・MCP連携</span></a></li>
+        <li><a href="#section-05"><span class="toc-number">5</span><span>APIキー管理</span></a></li>
+        <li><a href="#section-06"><span class="toc-number">6</span><span>業務フローの言語化</span></a></li>
+        <li><a href="#section-07"><span class="toc-number">7</span><span>スキル作成</span></a></li>
+        <li><a href="#section-08"><span class="toc-number">8</span><span>Computer Use</span></a></li>
+        <li><a href="#section-09"><span class="toc-number">9</span><span>オートメーション</span></a></li>
+        <li><a href="#section-10"><span class="toc-number">10</span><span>おはようスキル</span></a></li>
+        <li><a href="#section-11"><span class="toc-number">+</span><span>PLAUD活用</span></a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section id="section-00" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 00</div>
+          <h2 class="section-title">Codexの使い分け</h2>
+        </div>
+        <div class="content-card">
+          <h3>最初に、使う場所を間違えない</h3>
+          <p>ChatGPTのデスクトップアプリでは、WorkとCodexを切り替えて使えます。OpenAIのヘルプでも、Workは調査や資料作成などの成果物づくり、Codexはコードやリポジトリを扱う技術作業向けと整理されています。</p>
+          <p>ただし今回のテーマは「会社経営をAI化するための環境構築」です。ローカルフォルダ、AGENTS.md、APIキー管理、スキル作成などを扱うため、Codexを使う前提で進めます。</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>使う場所</th>
+                  <th>向いている仕事</th>
+                  <th>この動画での位置づけ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ChatGPT Work</td>
+                  <td>調査、分析、資料作成、レポート作成</td>
+                  <td>マーケティング業務の一般作業に使いやすい</td>
+                </tr>
+                <tr>
+                  <td>ChatGPT Codex</td>
+                  <td>ローカルフォルダ、コード、設定ファイル、外部ツール連携</td>
+                  <td>会社経営フォルダや自動化の土台を作る</td>
+                </tr>
+                <tr>
+                  <td>モデル選択</td>
+                  <td>普段使い、難しい作業、軽い作業で使い分ける</td>
+                  <td>迷ったら普段の仕事はバランス型、重要作業は高性能モデル、開発作業はCodex</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note">公式情報: <a href="https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" target="_blank" rel="noopener">ChatGPT Work and Codex</a></div>
+        </div>
+      </section>
+
+      <section id="section-01" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 01</div>
+          <h2 class="section-title">テクニック1：会社経営フォルダの構築</h2>
+        </div>
+        <div class="content-card">
+          <h3>まずCodexが作業するフォルダを作る</h3>
+          <p>Codexはローカルフォルダで作業します。ローカルフォルダとは、MacでいうFinder、Windowsでいうエクスプローラーで見ているファイルやフォルダのことです。</p>
+          <p>最初はCodexのデスクトップアプリだけでOKです。ターミナルというエンジニア向けの使い方もありますが、会社経営やマーケティングで使う分には、見慣れたチャット画面でフォルダを選んで指示できるデスクトップアプリから始めるのが分かりやすいです。</p>
+          <div class="quote">この情報がない状態でCodexに仕事を頼むと、どうしても一般論になりやすいです。会社情報、商品情報、過去の発信が入ると、自分の事業に合わせて判断しやすくなります。</div>
+          <h4>最初に入れる情報</h4>
+          <div class="grid three">
+            <div class="mini-card">
+              <strong>会社・事業情報</strong>
+              <p>事業概要、商品、価格、ターゲット、提供価値、よくある質問。</p>
+            </div>
+            <div class="mini-card">
+              <strong>発信・制作物</strong>
+              <p>過去のYouTube台本、X投稿、LINE配信、セミナー資料、LP。</p>
+            </div>
+            <div class="mini-card">
+              <strong>業務情報</strong>
+              <p>業務手順、担当者、使用ツール、確認ルール、お客様対応の基準。</p>
+            </div>
+          </div>
+          <h4>一撃構築プロンプト</h4>
+          <p>フォルダは、ただ情報を入れるだけではなく、AIにとって読み取りやすく整理して入れる必要があります。以下のプロンプトを使うと、会社経営用の初期フォルダをまとめて作れます。</p>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">会社経営フォルダ 一撃構築プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>このフォルダを、Codexで会社経営・SNS運用・講座運営・商品設計を進めるための作業フォルダとして整理してください。
+
+目的は、AIが会社情報・商品情報・過去の制作物・業務ルールを読み取り、実務に使える出力を作れる状態にすることです。
+
+以下の方針でフォルダ構造を作成してください。
+
+1. 会社全体の情報
+- 会社概要
+- 事業概要
+- 商品・サービス情報
+- ターゲット・顧客情報
+- よくある質問
+
+2. 事業部ごとの情報
+- SNS運用
+- 講座運営
+- 商品設計
+- セールス
+- 顧客対応
+- 経理・管理
+
+3. 制作物
+- YouTube台本
+- X投稿
+- LINE配信
+- セミナー資料
+- LP・販売ページ
+- お客様の声・実績
+
+4. AIに守らせるルール
+- 言葉遣い
+- 出力先
+- 確認が必要な操作
+- 扱ってはいけない情報
+- APIキーや顧客情報の管理ルール
+
+5. 今後スキル化したい業務
+- 業務名
+- 目的
+- 手順
+- 使う情報
+- 出力形式
+- 人間確認が必要な部分
+
+作成後に、
+「どのフォルダに何を入れればいいか」
+「最初に入れるべきファイル」
+「不足している情報」
+を初心者にも分かる言葉で説明してください。</code></pre>
+          </div>
+          <ul class="check-list">
+            <li>フォルダ名は、あとから見ても意味が分かる名前にする。</li>
+            <li>会社情報と制作物を混ぜず、事業部や業務領域ごとに分ける。</li>
+            <li>顧客情報やAPIキーを入れる場所は、最初から扱いを分ける。</li>
+            <li>作っただけで満足せず、実際の資料や過去制作物を入れる。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="section-02" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 02</div>
+          <h2 class="section-title">テクニック2：ルールファイルの作成</h2>
+        </div>
+        <div class="content-card">
+          <h3>Codexに毎回守らせるルールを作る</h3>
+          <p>会社経営フォルダを作ったら、次にやるのがルールファイルの作成です。CodexではAGENTS.mdというファイルを使います。これは、Codexに毎回守らせるルールを書くファイルです。</p>
+          <p>OpenAIのドキュメントでも、Codexは作業前にAGENTS.mdを読み、プロジェクトごとの指示として扱うと説明されています。つまりAGENTS.mdは、AIに「この会社ではこう動いてください」と伝えるための基本ルールです。</p>
+          <div class="note">公式情報: <a href="https://developers.openai.com/codex/guides/agents-md" target="_blank" rel="noopener">Custom instructions with AGENTS.md</a></div>
+          <h4>AGENTS.mdに入れる内容</h4>
+          <div class="grid">
+            <div class="mini-card">
+              <strong>仕事の前提</strong>
+              <p>このフォルダの目的、扱う事業、見るべき資料、出力先。</p>
+            </div>
+            <div class="mini-card">
+              <strong>禁止事項</strong>
+              <p>勝手な削除、上書き、外部送信、APIキー表示、架空数字の生成。</p>
+            </div>
+            <div class="mini-card">
+              <strong>文章ルール</strong>
+              <p>専門用語は簡単に説明する、事実と推測を分ける、一次情報を優先する。</p>
+            </div>
+            <div class="mini-card">
+              <strong>確認ルール</strong>
+              <p>送信、投稿、決済、削除、権限変更は人間確認を挟む。</p>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">AGENTS.md作成プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>このフォルダを会社経営用のCodex作業フォルダとして使いたいです。
+
+まず、Codexが毎回守るべきルールをまとめた AGENTS.md を作成してください。
+
+入れてほしい内容は以下です。
+
+1. このフォルダの目的
+- 会社経営、SNS運用、講座運営、商品設計などの業務をCodexで進めるための作業フォルダであること
+
+2. Codexの基本ルール
+- 不明点がある場合は勝手に決めずに確認する
+- 既存ファイルを削除・上書きする前に必ず確認する
+- 会社情報、顧客情報、APIキーなどの機密情報を外部に出さない
+- 出力は初心者にも分かる言葉で説明する
+
+3. ファイル管理ルール
+- 新しく作るファイルの保存先を明記する
+- 既存のフォルダ構造を勝手に大きく変えない
+- 作業後に変更したファイルを簡単に報告する
+
+4. 文章作成ルール
+- 専門用語は簡単な言葉で説明する
+- 事実と推測を分ける
+- 一次情報がない実績や数字を作らない
+
+上記を整理して、初心者にも分かりやすい AGENTS.md を作成してください。</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-03" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 03</div>
+          <h2 class="section-title">テクニック3：SaaSの棚卸し</h2>
+        </div>
+        <div class="content-card">
+          <h3>普段使っているWebサービスを洗い出す</h3>
+          <p>SaaSとは、Gmail、Chatwork、Googleカレンダーのように、普段の仕事で使っているWebサービスのことです。外部ツールをCodexに操作させる前に、自分がどのツールで何をしているのかを洗い出します。</p>
+          <p>一つ一つ自分で洗い出すのが面倒な場合は、Codexとの過去の会話や、チームメンバーとのLINE、Chatwork、メールなどを渡して分析してもらいます。</p>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">SaaS棚卸しプロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>これまでの私との会話ラリーを参照して、
+私が普段の仕事で使っていそうなSaaSツールを洗い出してください。
+
+もし追加でチームメンバーとのLINE、Chatwork、Slack、メールなどのやり取りを渡した場合は、
+その内容も分析対象にしてください。
+
+出力形式は以下にしてください。
+
+- SaaSツール名
+- 何の業務で使っていそうか
+- そのツールに入っていそうな情報
+- Codexに任せられそうな作業
+- 追加で確認したい質問
+
+推測で断定せず、
+確信がないものは「可能性あり」として分けてください。</code></pre>
+          </div>
+          <h4>出力された一覧で見るポイント</h4>
+          <ul class="check-list">
+            <li>そのツールに会社情報、顧客情報、予定、売上情報のどれが入っているか。</li>
+            <li>読むだけでよいのか、書き込みや送信まで必要なのか。</li>
+            <li>Codexに任せたい作業が、確認、整理、下書き、投稿、予約のどれなのか。</li>
+            <li>最初に試すなら、リスクが低い読み取り作業から始められるか。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="section-04" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 04</div>
+          <h2 class="section-title">テクニック4：API・MCP連携</h2>
+        </div>
+        <div class="content-card">
+          <h3>SaaSを洗い出したら、連携方法を調べる</h3>
+          <p>APIやMCPは、Codexから外部ツールを扱えるようにする仕組みです。SaaSの棚卸しができたら、次はCodexに公式ドキュメントベースで連携方法を調べてもらいます。</p>
+          <p>ここで特に見てほしいのが料金体系です。APIは無料で使えるものもありますが、使った分だけお金がかかる従量課金のものもあります。連携方法だけではなく、料金が発生する条件までセットで確認してください。</p>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">API・MCP連携リサーチ指示</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>先ほど洗い出したSaaSツールについて、
+APIまたはMCP連携ができるかをWebリサーチしてください。
+
+必ず公式ドキュメントを優先して確認してください。
+
+それぞれについて以下をまとめてください。
+
+- APIまたはMCP連携ができるか
+- その連携で実現できること
+- 連携できないこと
+- 連携するために必要なもの
+- APIキーの取得方法
+- Codexで接続するまでの手順
+- AIに触らせてよい範囲
+- 料金体系
+- 従量課金の場合、何をすると料金が発生するか
+- 初心者が最初に試すならどの操作から始めるべきか
+
+公式ドキュメントで確認できた内容と
+推測を分けて出してください。</code></pre>
+          </div>
+          <h4>動画内で紹介した具体例</h4>
+          <div class="grid">
+            <div class="mini-card">
+              <strong>Chatwork API → X投稿</strong>
+              <p>星川の場合、Chatworkの成果報告をCodexが読み取り、X投稿を作り、XのAPI経由で投稿する流れを組んでいます。</p>
+              <p><a href="https://developer.chatwork.com/" target="_blank" rel="noopener">Chatwork APIドキュメント</a> / <a href="https://docs.x.com/x-api/introduction" target="_blank" rel="noopener">X APIドキュメント</a></p>
+            </div>
+            <div class="mini-card">
+              <strong>Utage API・MCP</strong>
+              <p>Utageはコンテンツ販売や講座販売で使われるマーケティングツールです。LP、決済ページ、LINE・メール配信、会員ページなどを扱えます。</p>
+              <p><a href="https://docs.utage-system.com/introduction" target="_blank" rel="noopener">UTAGE APIドキュメント</a></p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th>必ず見ること</th>
+                  <th>理由</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>連携可否</td>
+                  <td>API、MCP、Webhook、エクスポートのどれが使えるか</td>
+                  <td>使える仕組みによって自動化できる範囲が変わる</td>
+                </tr>
+                <tr>
+                  <td>料金体系</td>
+                  <td>無料枠、月額、従量課金、上限設定</td>
+                  <td>気づかないうちに多額の請求が来る事故を防ぐ</td>
+                </tr>
+                <tr>
+                  <td>操作範囲</td>
+                  <td>読み取り、作成、更新、送信、削除</td>
+                  <td>AIに任せてよい範囲を先に決めるため</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-05" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 05</div>
+          <h2 class="section-title">テクニック5：APIキー管理</h2>
+        </div>
+        <div class="content-card">
+          <h3>APIキーは外部ツールを操作するための鍵</h3>
+          <p>APIとMCPの繋ぎ方を調べると、必ずAPIキーが出てきます。APIキーは、AIが外部ツールを操作するための鍵のようなものです。</p>
+          <p>APIキーの中には従量課金制のものがあります。インターネット上に公開してしまうと、第三者に勝手に使われて、身に覚えのない請求が届く可能性があります。APIキーは、チャットに貼りっぱなしにしない、公開ドキュメントに書かない、SNSに載せない、公開フォルダに入れない。この4つを徹底してください。</p>
+          <h4>.envで管理する</h4>
+          <p>.envは、APIキーなどの重要な情報を外に出さないために管理するファイルです。まずはCodexに、.env、.env.example、.gitignoreを作ってもらいます。</p>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">APIキー安全管理プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>このフォルダで外部サービスのAPIキーを扱います。
+APIキーが外部に流出しないように、安全な管理環境を作ってください。
+
+以下を実行してください。
+
+1. .env ファイルを作成する
+- 本物のAPIキーを入れる場所として使う
+- まだ実際のキーは入れず、仮の値だけ入れる
+
+2. .env.example を作成する
+- 他の人に共有しても問題ないように、キー名だけを書く
+- 本物のAPIキーは絶対に入れない
+
+3. .gitignore を確認する
+- .env が外部に公開されないように除外設定を入れる
+
+4. ルールファイルにセキュリティルールを追記する
+- Codexで使う場合は AGENTS.md に追記する
+- Claude Codeも使う場合は CLAUDE.md にも同じルールを追記する
+- APIキーをチャットに出力しない
+- APIキーをログに表示しない
+- APIキーを外部URLへ送信しない
+- 公開前に機密情報が含まれていないか確認する
+- 従量課金APIは料金体系を確認してから使う
+- 顧客に届く操作、お金が動く操作、外部に公開される操作は人間確認を挟む
+- 送信、投稿、決済、削除、権限変更は勝手に実行しない
+- 最初は読み取りや下書き作成など、小さい操作からテストする
+
+5. 最初の疎通確認として、安全なテスト手順を提案する
+
+6. 変更内容を初心者にも分かる言葉で説明する</code></pre>
+          </div>
+          <h4>.envに入れる例</h4>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">.env サンプル</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>CHATWORK_API_TOKEN=ここにChatworkのAPIキーを入れる
+X_BEARER_TOKEN=ここにXのAPIキーを入れる
+UTAGE_API_KEY=ここにUtageのAPIキーを入れる
+GOOGLE_CLIENT_ID=ここにGoogleのクライアントIDを入れる
+GOOGLE_CLIENT_SECRET=ここにGoogleのクライアントシークレットを入れる</code></pre>
+          </div>
+          <ul class="check-list">
+            <li>まずはChatworkの自分のルームを1件読むなど、小さい確認から始める。</li>
+            <li>X投稿やメール送信など、外に出る操作は人間確認を挟む。</li>
+            <li>削除、決済、権限変更はCodex単独で実行させない。</li>
+            <li>API料金、権限、出力内容を確認してから任せる範囲を広げる。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="section-06" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 06</div>
+          <h2 class="section-title">テクニック6：業務フローの言語化</h2>
+        </div>
+        <div class="content-card">
+          <h3>AIに任せる前に、自分の仕事を言葉にする</h3>
+          <p>業務フローの言語化は、会社経営に限った話ではなくAI活用の基本中の基本です。AIに仕事を任せるには、自分の仕事を小さい作業まで分解して、AIに渡せる形にする必要があります。</p>
+          <p>たとえばYouTube台本作成なら、キーワード決め、競合リサーチ、コメント確認、構成作成、台本執筆、修正、保存に分けられます。一見1つの仕事でも、実際には小さい作業がいくつも組み合わさっています。</p>
+          <div class="flow">
+            <div class="flow-item">
+              <div class="flow-index">1</div>
+              <div>
+                <h4>1日、1週間、1ヶ月の作業を書き出す</h4>
+                <p>思いつくままでOKです。作業名、頻度、体感時間を書きます。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">2</div>
+              <div>
+                <h4>AI化できるものを分類する</h4>
+                <p>AIに任せられるもの、AIと人間で進めるもの、人間が見るべきものに分けます。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">3</div>
+              <div>
+                <h4>センターピンを決める</h4>
+                <p>一番時間を食っているタスクを1つ選び、まずそこをAI化します。</p>
+              </div>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">業務フロー棚卸しプロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>私の普段の業務を棚卸ししたいです。
+
+これまでの私との会話、作業ログ、渡した資料を参照して、
+私が普段行っている業務を洗い出してください。
+
+もし追加でチームメンバーとのLINE、Chatwork、Slack、メールなどのやり取りを渡した場合は、
+その内容も分析対象にしてください。
+
+出力形式は以下にしてください。
+
+- 業務名
+- その業務の目的
+- 頻度
+- 体感の所要時間
+- 関係する部署や業務領域
+- 実際にやっている手順
+- 使っているツール
+- 判断が必要な部分
+- AIに任せられそうな部分
+- 人間が確認すべき部分
+- AI化可 / 半分 / 人間のみ の分類
+- スキル化できそうな部分
+- 最初にAI化するなら優先度が高いもの
+
+推測で断定せず、
+根拠があるものと
+可能性が高いものを分けて出してください。
+
+最後に、
+一番時間を食っていて
+最初にAI化するべきセンターピン候補を
+3つ提案してください。</code></pre>
+          </div>
+          <div class="note">最初に狙うべきなのは、毎朝やっている確認作業、転記作業、決まった流れで進む反復作業です。顧客に届くもの、お金が動くもの、外に出るものは、最後に人間確認を挟みます。</div>
+        </div>
+      </section>
+
+      <section id="section-07" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 07</div>
+          <h2 class="section-title">テクニック7：スキル作成</h2>
+        </div>
+        <div class="content-card">
+          <h3>良い業務フローを、毎回再現できるようにする</h3>
+          <p>スキルとは、簡単に言うとAIに仕事の手順を覚えさせるものです。毎回どの情報を見るのか、どういう順番で進めるのか、どんな形で出力するのか、どこをチェックするのかをまとめます。</p>
+          <p>ただし、いきなりスキルを作ろうとしないでください。先にその業務を1回、Codexで手動実行します。スキル化は、良い流れを固定するためにやるものです。</p>
+          <div class="note">公式情報: <a href="https://developers.openai.com/codex/skills" target="_blank" rel="noopener">Codex Skills</a></div>
+          <div class="flow">
+            <div class="flow-item">
+              <div class="flow-index">1</div>
+              <div>
+                <h4>1回手動で通す</h4>
+                <p>企画、資料、コメント、構成、出力、FB反映まで一度やります。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">2</div>
+              <div>
+                <h4>足りない情報を見つける</h4>
+                <p>曖昧だった指示、毎回見る資料、品質チェック基準を洗い出します。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">3</div>
+              <div>
+                <h4>スキルクリエイターで固定する</h4>
+                <p>デスクトップアプリで「スキルクリエイターを使って」と指示すればOKです。</p>
+              </div>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">スキル作成プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>これまでのやり取りをもとにスキルクリエイターを使って、この業務を毎回同じ品質で実行できるスキルにしてください。
+
+スキルには以下を含めてください。
+
+- このスキルの目的
+- 入力として必要な情報
+- 参照するフォルダやファイル
+- 実行する手順
+- 出力形式
+- 品質チェック項目
+- やってはいけないこと
+- 人間確認が必要な作業</code></pre>
+          </div>
+          <h4>YouTube台本作成スキルの実演イメージ</h4>
+          <p>星川の場合は、YouTube台本作成スキルを使い、企画、競合台本、コメント欄、フォルダ内の情報、FBを読み込んで台本を作る流れをスキル化しています。</p>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">台本作成スキル 実演用プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>YouTube台本作成スキルを使って、
+「【2026年最新】AI社員に仕事を丸投げする Skills作成完全攻略」
+というテーマで台本を作ってください。
+
+足りない情報があれば、
+先に質問してください。</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-08" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 08</div>
+          <h2 class="section-title">テクニック8：Computer Use</h2>
+        </div>
+        <div class="content-card">
+          <h3>APIで届かない画面操作を任せる</h3>
+          <p>Computer Useは、AIがブラウザやアプリの画面を見ながら操作してくれる機能です。APIやMCPは外部ツールとCodexをつなぐ方法、Computer Useは人間が画面上でやっている操作をAIに手伝わせる方法です。</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>方法</th>
+                  <th>向いている作業</th>
+                  <th>注意点</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>API・MCP</td>
+                  <td>安定して繰り返す読み取り、作成、更新、投稿</td>
+                  <td>従量課金や権限設定を確認する</td>
+                </tr>
+                <tr>
+                  <td>Computer Use</td>
+                  <td>管理画面の確認、ボタン操作、APIがないツールの操作</td>
+                  <td>APIより作業時間が長くなりやすい</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>APIにいきなりお金がかかるのが怖い場合は、まずComputer Useで代替するのもありです。ただし、スピードや安定性を重視するならAPI、まずお金をかけずに試したいならComputer Use、という考え方が分かりやすいです。</p>
+          <ul class="check-list">
+            <li>最初は画面を開く、内容を確認する、下書きを作るところまでにする。</li>
+            <li>クリック前、送信前、公開前は止まるように指示する。</li>
+            <li>削除、決済、権限変更は必ず人間が確認する。</li>
+            <li>Utage管理画面、会員ページ確認、フォーム入力、スプレッドシート確認などから試す。</li>
+          </ul>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">Computer Use 安全実行プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>Computer Useを使って、画面上の操作を手伝ってください。
+
+ただし、以下のルールを必ず守ってください。
+
+- まず画面の状態を確認して、何が表示されているか説明する
+- 入力やクリックが必要な場合は、実行前に何をするか説明する
+- 送信、投稿、決済、削除、公開、権限変更は勝手に実行しない
+- 重要な操作の直前で止まり、人間の確認を求める
+- まずは下書き作成、表示確認、情報整理までに限定する
+
+今回やりたい作業は以下です。
+【ここに作業内容を書く】</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-09" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 09</div>
+          <h2 class="section-title">テクニック9：オートメーション</h2>
+        </div>
+        <div class="content-card">
+          <h3>決まった時間や条件で仕事を動かす</h3>
+          <p>フォルダ、ルール、API、スキル、Computer Useが整ったら、定期的に発生する仕事を自動で動くようにします。オートメーションには、時刻で動くものと、何かが起きたら動くものがあります。</p>
+          <div class="grid">
+            <div class="mini-card">
+              <strong>時刻で動く</strong>
+              <p>毎朝9時に今日のタスクを整理する。毎週日曜の夜に実績報告をまとめる。</p>
+            </div>
+            <div class="mini-card">
+              <strong>条件で動く</strong>
+              <p>新しい音声データが入ったら議事録化する。Chatworkに特定投稿が来たら下書き化する。</p>
+            </div>
+          </div>
+          <h4>星川の実例</h4>
+          <p>星川の場合、Chatworkの内容をCodexに分析させ、受講生の実績報告ポストを自動で作っています。毎週日曜日の夜に、直近1週間の新規実績報告をCodexがリサーチし、投稿作成から予約投稿まで進める設計です。</p>
+          <div class="flow">
+            <div class="flow-item">
+              <div class="flow-index">1</div>
+              <div>
+                <h4>Chatworkから成果報告を探す</h4>
+                <p>対象ルームや検索条件を決め、直近1週間分を拾います。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">2</div>
+              <div>
+                <h4>X投稿にする</h4>
+                <p>本人の文体、講座の文脈、実績の見せ方に合わせて投稿文を作ります。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">3</div>
+              <div>
+                <h4>予約投稿する</h4>
+                <p>外部に出る操作なので、確認ルールを入れた上で投稿します。</p>
+              </div>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">オートメーション設計プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>以下の業務をオートメーション化したいです。
+
+業務内容：
+【ここに自動化したい業務を書く】
+
+この業務について、以下を整理してください。
+
+- 何をきっかけに動かすべきか
+- 時刻で動かすべきか、条件で動かすべきか
+- 必要なSaaSやAPI
+- 読み取る情報
+- 作成する出力
+- 人間確認が必要な操作
+- 失敗した時の止め方
+- 最初に小さくテストする方法
+
+送信、投稿、決済、削除、公開、権限変更は、
+必ず人間確認を挟む設計にしてください。</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-10" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">SECTION 10</div>
+          <h2 class="section-title">テクニック10：おはようスキル</h2>
+        </div>
+        <div class="content-card">
+          <h3>朝イチに会社の状況を整理する</h3>
+          <p>おはようスキルは、朝イチに動かすスキルです。Chatwork、Gmail、Googleカレンダーを読み取り、今日やるべきことを優先順位つきで整理します。</p>
+          <p>最初は手動でOKです。慣れてきたら、毎朝決まった時間に動くオートメーションと組み合わせます。すると朝イチから、仕事の全体像が見えた状態で動き出せます。</p>
+          <div class="grid three">
+            <div class="mini-card">
+              <strong>Chatwork</strong>
+              <p>自分宛ての連絡、未対応タスク、確認が必要な連絡を拾う。</p>
+            </div>
+            <div class="mini-card">
+              <strong>Gmail</strong>
+              <p>返信が必要そうなメール、期限が近い連絡、重要な案内を拾う。</p>
+            </div>
+            <div class="mini-card">
+              <strong>Googleカレンダー</strong>
+              <p>今日の予定、準備が必要な会議、空き時間を確認する。</p>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">おはようスキル 初期プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>おはようスキルとして、今日の仕事を整理してください。
+
+確認する対象は以下です。
+
+- Chatworkの自分宛て連絡、未対応タスク、確認が必要な連絡
+- Gmailの返信が必要そうなメール、期限が近い連絡、重要な案内
+- Googleカレンダーの今日の予定、準備が必要な会議、空き時間
+- フォルダ内のタスクメモ、進行中プロジェクト、締切
+
+出力形式は以下にしてください。
+
+1. 今日の最重要タスク
+2. 午前中にやること
+3. 午後にやること
+4. 返信が必要な連絡
+5. 今日の予定
+6. 先に確認した方がいいリスク
+7. AIに任せられる下準備
+
+推測で断定せず、
+分からないものは「要確認」としてください。
+送信、投稿、削除、権限変更は勝手に実行しないでください。</code></pre>
+          </div>
+          <div class="note">おはようスキルがあると、Codexが単発で仕事をするだけではなく、毎日会社の状況を確認して、今日の動き方を整理してくれる状態になります。</div>
+          <div class="note">関連公式情報: <a href="https://developers.google.com/workspace/gmail/api/guides" target="_blank" rel="noopener">Gmail API</a> / <a href="https://developers.google.com/workspace/calendar/api/guides/overview" target="_blank" rel="noopener">Google Calendar API</a></div>
+        </div>
+      </section>
+
+      <section id="section-11" class="reveal">
+        <div class="section-header">
+          <div class="section-kicker">BONUS</div>
+          <h2 class="section-title">PLAUD活用</h2>
+        </div>
+        <div class="content-card">
+          <h3>ミーティング後の仕事をCodexにつなげる</h3>
+          <p>PLAUDはAIボイスレコーダーです。ミーティング音声を録音し、文字起こしや要約までできます。ここで強いのは、録音して終わりではなく、Codexとつなげることで議事録の先の仕事まで進めやすくなるところです。</p>
+          <p>PLAUDの公式ドキュメントでは、Plaud recordingsをMCP対応AIクライアントにつなぎ、録音検索、文字起こし取得、ドキュメント生成ができると案内されています。Codex Desktopも対応クライアントとして記載されています。</p>
+          <div class="note">公式情報: <a href="https://docs.plaud.ai/plaud-mcp-cli/mcp" target="_blank" rel="noopener">Plaud MCP</a></div>
+          <div class="flow">
+            <div class="flow-item">
+              <div class="flow-index">1</div>
+              <div>
+                <h4>ミーティングを録音する</h4>
+                <p>音声をPLAUDに残し、文字起こしや要約を作ります。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">2</div>
+              <div>
+                <h4>Codexで内容を扱う</h4>
+                <p>決定事項、担当者、次のタスク、作るべき文章や資料を整理します。</p>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-index">3</div>
+              <div>
+                <h4>次の仕事に変換する</h4>
+                <p>Chatwork返信文、企画書の下書き、YouTube台本、担当者別タスクに変換します。</p>
+              </div>
+            </div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head">
+              <span class="prompt-title">PLAUD議事録活用プロンプト</span>
+              <button class="copy-btn" type="button">コピー</button>
+            </div>
+            <pre><code>PLAUDにある直近のミーティング内容をもとに、
+次に進めるべき仕事を整理してください。
+
+以下の形式で出してください。
+
+- ミーティングの要約
+- 決定事項
+- 未決定事項
+- 担当者ごとのタスク
+- 期限がありそうなもの
+- Chatworkで送る返信文の下書き
+- 企画書や資料に反映すべき内容
+- YouTube台本やSNS発信に使えそうな素材
+
+推測で断定せず、
+音声や文字起こしに根拠がある内容と
+追加確認が必要な内容を分けてください。
+
+送信や投稿は勝手に実行せず、
+下書きまで作ってください。</code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="cta reveal">
+      <h2>まずは会社経営フォルダから作ってください</h2>
+      <p>順番は、会社経営フォルダ、ルールファイル、SaaS棚卸し、API・MCP連携、APIキー管理、業務フロー言語化、スキル化、Computer Use、オートメーション、おはようスキルです。</p>
+      <p>最初から全部を作る必要はありません。今日やることは、会社経営フォルダを作り、普段使っているSaaSを洗い出し、1つの業務を言葉にすることです。</p>
+    </section>
+
+  </div>
+
+  <nav class="section-rail" aria-label="セクション進捗">
+    <a href="#section-00" aria-label="Codexの使い分け"></a>
+    <a href="#section-01" aria-label="会社経営フォルダの構築"></a>
+    <a href="#section-02" aria-label="ルールファイルの作成"></a>
+    <a href="#section-03" aria-label="SaaSの棚卸し"></a>
+    <a href="#section-04" aria-label="API・MCP連携"></a>
+    <a href="#section-05" aria-label="APIキー管理"></a>
+    <a href="#section-06" aria-label="業務フローの言語化"></a>
+    <a href="#section-07" aria-label="スキル作成"></a>
+    <a href="#section-08" aria-label="Computer Use"></a>
+    <a href="#section-09" aria-label="オートメーション"></a>
+    <a href="#section-10" aria-label="おはようスキル"></a>
+    <a href="#section-11" aria-label="PLAUD活用"></a>
+  </nav>
+
+  <button class="back-to-top" type="button" aria-label="ページ上部へ戻る">↑</button>
+
+  <script>
+    const progressBar = document.querySelector(".scroll-progress span");
+    const backToTop = document.querySelector(".back-to-top");
+    const tocLinks = Array.from(document.querySelectorAll(".toc-list a"));
+    const rail = document.querySelector(".section-rail");
+    const railLinks = Array.from(document.querySelectorAll(".section-rail a"));
+    const sections = Array.from(document.querySelectorAll("main section[id]"));
+
+    function updateProgress() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+      backToTop.classList.toggle("is-visible", window.scrollY > 600);
+      rail.classList.toggle("is-visible", window.scrollY > 520);
+    }
+
+    function updateActiveNav() {
+      let current = sections[0]?.id;
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 160) {
+          current = section.id;
+        }
+      });
+
+      [...tocLinks, ...railLinks].forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${current}`);
+      });
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".hero, .intro, .toc, .section-header, .content-card, .cta").forEach((el) => {
+      el.classList.add("reveal");
+      revealObserver.observe(el);
+    });
+
+    document.querySelectorAll(".copy-btn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const card = button.closest(".prompt-card");
+        const text = card.querySelector("code").innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = "コピー済み";
+          button.classList.add("copied");
+          setTimeout(() => {
+            button.textContent = "コピー";
+            button.classList.remove("copied");
+          }, 1500);
+        } catch (error) {
+          button.textContent = "選択してコピー";
+          setTimeout(() => {
+            button.textContent = "コピー";
+          }, 1500);
+        }
+      });
+    });
+
+    const hero = document.querySelector(".hero");
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      hero.style.setProperty("--mx", `${x}%`);
+      hero.style.setProperty("--my", `${y}%`);
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.addEventListener("scroll", () => {
+      updateProgress();
+      updateActiveNav();
+    }, { passive: true });
+
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+    updateActiveNav();
+  </script>
+</body>
+</html>
