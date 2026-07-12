@@ -1693,7 +1693,7 @@ GOOGLE_CLIENT_SECRET=ここにGoogleのクライアントシークレットを�
       });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll(".hero, .intro, .toc, .section-header, .content-card, .cta").forEach((el) => {
+    document.querySelectorAll(".reveal, .hero, .intro, .toc, .section-header, .content-card, .cta").forEach((el) => {
       el.classList.add("reveal");
       revealObserver.observe(el);
     });
