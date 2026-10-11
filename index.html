@@ -1689,12 +1689,11 @@ GOOGLE_CLIENT_SECRET=ここにGoogleのクライアントシークレットを�
           entry.target.classList.add("is-visible");
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0 });
 
-    document.querySelectorAll(".reveal, .hero, .intro, .toc, .section-header, .content-card, .cta").forEach((el) => {
-      el.classList.add("reveal");
-      revealObserver.observe(el);
-    });
+    const revealTargets = document.querySelectorAll(".reveal, .hero, .intro, .toc, .section-header, .content-card, .cta");
+    revealTargets.forEach((target) => { target.classList.add("reveal"); if (target.offsetHeight > window.innerHeight) { target.classList.add("is-visible"); } else { revealObserver.observe(target); } });  /* 画面より高い要素はアニメさせない（2026-10-11 追加） */
+    setTimeout(() => { revealTargets.forEach((target) => target.classList.add("is-visible")); }, 2500);  /* 最後の砦: 発火しなかった章も2.5秒後に表示（2026-10-11 追加） */
 
     document.querySelectorAll(".copy-btn").forEach((button) => {
       button.addEventListener("click", async () => {
